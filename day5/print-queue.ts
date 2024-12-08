@@ -9,3 +9,4 @@ const INPUT_PATH = path.join(__dirname, "input.txt");
 const inputData = await readInput(INPUT_PATH);
 
 console.log("Answer is here", calculate(inputData));
+// still need to solve it
