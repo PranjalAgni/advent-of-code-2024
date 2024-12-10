@@ -1,5 +1,5 @@
 import path from "path";
-import { convertInputToList, readInput } from "../utils/data";
+import { readInput } from "../utils/data";
 
 function explorePath(graph: Map<number, number[]>, current: number): number[] {
   const queue = [current];
@@ -20,7 +20,7 @@ function explorePath(graph: Map<number, number[]>, current: number): number[] {
   return path;
 }
 
-function calculate(input: string): number[] {
+function calculate(input: string): number {
   const list = input.split("\n");
   const index = list.findIndex((x) => x === "");
   const rules = list.slice(0, index);
@@ -35,23 +35,33 @@ function calculate(input: string): number[] {
     map.get(a)?.push(b);
   }
 
-  const answer = [];
-
+  let answer = 0;
   for (const query of queries) {
-    const pattern = query.split(",").map((x) => parseInt(x));
-    const N = pattern.length;
+    const pattern = new Map(
+      query
+        .split(",")
+        .filter((x) => x.length > 0)
+        .map((k, i) => [parseInt(k), i])
+    );
+
     let isValid = true;
-    for (let idx = 0; idx < N; idx++) {
-      const current = pattern[idx];
-      // console.log("Searching for", current);
-      // if (map.has(current)) console.log("Curr neighbors", map.get(current));
-      console.log(`Path ${current} ->`, explorePath(map, current));
-      for (let jdx = idx + 1; jdx < N; jdx++) {}
+    for (const [from, to] of map.entries()) {
+      for (const neighbor of to) {
+        if (pattern.has(+from) && pattern.has(neighbor) && pattern.get(+from)! > pattern.get(neighbor)!) {
+          isValid = false;
+          break;
+        }
+      }
+
       if (!isValid) break;
     }
 
     if (isValid) {
-      answer.push(pattern[N / 2]);
+      const entries = [...pattern];
+      const middleIndex = Math.floor(entries.length / 2);
+      const middleElement = entries[middleIndex][0];
+
+      answer += middleElement;
     }
   }
 
@@ -62,6 +72,3 @@ const INPUT_PATH = path.join(__dirname, "input.txt");
 const inputData = await readInput(INPUT_PATH);
 
 console.log("Answer is here", calculate(inputData));
-
-// 75,47,61,53,29
-//
