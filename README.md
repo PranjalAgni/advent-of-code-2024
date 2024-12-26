@@ -2,7 +2,8 @@
 
 [Advent of Code](https://adventofcode.com/2024/) is an Advent calendar of small programming puzzles for a variety of skill sets and skill levels that can be solved in any programming language you like. This year I am solving the puzzles with Bun 🐇
 
-christmas eve today
+christmas eve today, need to solve further 🎄
+
 My Past AOC Challenges:
 
 - [Advent of Code 2023](https://github.com/PranjalAgni/advent-of-code-2023)
